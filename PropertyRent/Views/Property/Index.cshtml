@@ -156,14 +156,14 @@
 </div>
 
 <!-- Create Property Modal -->
-<div class="modal fade" id="createPropertyModal" tabindex="-1" aria-labelledby="createPropertyModalLabel" aria-hidden="true">
+<<div class="modal fade" id="createPropertyModal" tabindex="-1" aria-labelledby="createPropertyModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title" id="createPropertyModalLabel">Add New Property</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -244,9 +244,22 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="imageFile" class="form-label">Property Image</label>
+                            <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" onchange="previewImage(event, 'imagePreview')">
+                            <div class="form-text">Upload an image for the property (JPG, PNG files)</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Preview</label>
+                            <img id="imagePreview" src="/images/default-property.jpg" class="img-fluid rounded" alt="Property preview" style="max-height: 150px;">
+                        </div>
+                    </div>
+
                     <div class="mb-3">
-                        <label for="ImageUrl" class="form-label">Image URL</label>
+                        <label for="ImageUrl" class="form-label">Image URL (Optional)</label>
                         <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" value="/images/default-property.jpg" maxlength="255">
+                        <div class="form-text">This will be used if no image is uploaded</div>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -64,11 +64,15 @@ function validatePropertyForm(formId) {
 
 // Image preview functionality
 function previewImage(event, previewId) {
-    const reader = new FileReader();
-    reader.onload = function () {
-        const output = document.getElementById(previewId);
-        output.src = reader.result;
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById(previewId);
+            if (output) {
+                output.src = reader.result;
+            }
+        }
+        reader.readAsDataURL(file);
     }
-
-    reader.readAsDataURL(event.target.files[0]);
 }

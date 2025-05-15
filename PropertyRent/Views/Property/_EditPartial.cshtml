@@ -1,7 +1,7 @@
 ﻿<!--_EditPartial.cshtml-->
 @model PropertyRent.Models.Property
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="DatePosted" />
 
@@ -84,9 +84,22 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-8 mb-3">
+            <label for="imageFile" class="form-label">Update Property Image</label>
+            <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" onchange="previewImage(event, 'editImagePreview')">
+            <div class="form-text">Upload a new image for the property (JPG, PNG files)</div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Preview</label>
+            <img id="editImagePreview" src="@Model.ImageUrl" class="img-fluid rounded" alt="Property preview" style="max-height: 150px;">
+        </div>
+    </div>
+
     <div class="mb-3">
-        <label asp-for="ImageUrl" class="form-label">Image URL</label>
+        <label asp-for="ImageUrl" class="form-label">Current Image Path</label>
         <input asp-for="ImageUrl" class="form-control" maxlength="255">
+        <div class="form-text">This will be overridden if a new image is uploaded</div>
     </div>
 
     <div class="mb-3">
