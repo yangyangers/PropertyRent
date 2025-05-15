@@ -1,0 +1,432 @@
+﻿@model IEnumerable<PropertyRent.Models.Property>
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4">Property Rentals</h1>
+            <p class="lead">Find your perfect home in Cebu City, Philippines</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search properties...">
+                <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createPropertyModal">
+                <i class="bi bi-plus-circle"></i> Add New Property
+            </button>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Filter Properties</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="propertyType" class="form-label">Property Type</label>
+                        <select id="propertyType" class="form-select">
+                            <option value="">All Types</option>
+                            <option value="Studio">Studio</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Condominium">Condominium</option>
+                            <option value="House">House</option>
+                            <option value="Townhouse">Townhouse</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Price Range (₱)</label>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <input type="number" id="minPrice" class="form-control" placeholder="Min">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" id="maxPrice" class="form-control" placeholder="Max">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="bedrooms" class="form-label">Bedrooms</label>
+                        <select id="bedrooms" class="form-select">
+                            <option value="">Any</option>
+                            <option value="1">1+</option>
+                            <option value="2">2+</option>
+                            <option value="3">3+</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="furnished">
+                            <label class="form-check-label" for="furnished">
+                                Furnished Only
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="parking">
+                            <label class="form-check-label" for="parking">
+                                With Parking
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button id="filterButton" class="btn btn-primary">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="row" id="propertyList">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 property-card @(item.IsAvailable ? "" : "border-danger")">
+                            <div class="position-relative">
+                                <img src="@item.ImageUrl" class="card-img-top" alt="@item.Title"
+                                     style="height: 200px; object-fit: cover;">
+                                @if (!item.IsAvailable)
+                                {
+                                    <div class="position-absolute top-0 end-0 bg-danger text-white p-2 m-2 rounded">
+                                        Rented
+                                    </div>
+                                }
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate">@item.Title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@item.Location</h6>
+                                <p class="card-text text-primary fw-bold">₱@item.RentalPrice.ToString("N0")/month</p>
+                                <p class="card-text text-truncate">@item.Description</p>
+                                <div class="d-flex mb-2">
+                                    <span class="me-3"><i class="bi bi-building"></i> @item.PropertyType</span>
+                                    <span class="me-3"><i class="bi bi-door-closed"></i> @item.Bedrooms BR</span>
+                                    <span><i class="bi bi-water"></i> @item.Bathrooms BA</span>
+                                </div>
+                                <div class="d-flex mb-2">
+                                    @if (item.IsFurnished)
+                                    {
+                                        <span class="badge bg-info me-2">Furnished</span>
+                                    }
+                                    @if (item.HasParking)
+                                    {
+                                        <span class="badge bg-secondary me-2">Parking</span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <div class="btn-group w-100">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                            data-bs-target="#detailsPropertyModal" data-property-id="@item.Id">
+                                        <i class="bi bi-info-circle"></i> Details
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                                            data-bs-target="#editPropertyModal" data-property-id="@item.Id">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                            data-bs-target="#deletePropertyModal" data-property-id="@item.Id">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div id="noResultsMessage" class="text-center mt-5 d-none">
+                <h3>No properties match your search criteria</h3>
+                <p>Try adjusting your filters or search terms</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Property Modal -->
+<div class="modal fade" id="createPropertyModal" tabindex="-1" aria-labelledby="createPropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="createPropertyModalLabel">Add New Property</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Create" method="post">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="Title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="Title" name="Title" required maxlength="100">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="PropertyType" class="form-label">Property Type</label>
+                            <select class="form-select" id="PropertyType" name="PropertyType" required>
+                                <option value="">Select Type</option>
+                                <option value="Studio">Studio</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Condominium">Condominium</option>
+                                <option value="House">House</option>
+                                <option value="Townhouse">Townhouse</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Description" class="form-label">Description</label>
+                        <textarea class="form-control" id="Description" name="Description" rows="3" required maxlength="500"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="Address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="Address" name="Address" required maxlength="200">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="Location" name="Location" value="Cebu City" required maxlength="100">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="RentalPrice" class="form-label">Rental Price (₱)</label>
+                            <input type="number" class="form-control" id="RentalPrice" name="RentalPrice" min="1000" max="1000000" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Bedrooms" class="form-label">Bedrooms</label>
+                            <input type="number" class="form-control" id="Bedrooms" name="Bedrooms" min="1" max="20" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="Bathrooms" class="form-label">Bathrooms</label>
+                            <input type="number" class="form-control" id="Bathrooms" name="Bathrooms" min="1" max="20" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="HasParking" name="HasParking">
+                                <label class="form-check-label" for="HasParking">
+                                    Has Parking
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="IsFurnished" name="IsFurnished">
+                                <label class="form-check-label" for="IsFurnished">
+                                    Is Furnished
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ContactNumber" class="form-label">Contact Number</label>
+                            <input type="tel" class="form-control" id="ContactNumber" name="ContactNumber" maxlength="20">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ContactEmail" class="form-label">Contact Email</label>
+                            <input type="email" class="form-control" id="ContactEmail" name="ContactEmail" maxlength="100">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ImageUrl" class="form-label">Image URL</label>
+                        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" value="/images/default-property.jpg" maxlength="255">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Property</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Details Property Modal -->
+<div class="modal fade" id="detailsPropertyModal" tabindex="-1" aria-labelledby="detailsPropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailsPropertyModalLabel">Property Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailsPropertyContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary toggle-availability-btn">Toggle Availability</button>
+                <form id="toggleAvailabilityForm" asp-action="ToggleAvailability" method="post">
+                    <input type="hidden" id="togglePropertyId" name="id" value="">
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Property Modal -->
+<div class="modal fade" id="editPropertyModal" tabindex="-1" aria-labelledby="editPropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="editPropertyModalLabel">Edit Property</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="editPropertyContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Property Modal -->
+<div class="modal fade" id="deletePropertyModal" tabindex="-1" aria-labelledby="deletePropertyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deletePropertyModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deletePropertyContent">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+                $(document).on('click', '[data-bs-target="#detailsPropertyModal"]', function () {
+            const propertyId = $(this).data('property-id');
+            $('#togglePropertyId').val(propertyId);
+            loadModalContent('Details', propertyId);
+        });
+
+        // Edit modal
+        $(document).on('click', '[data-bs-target="#editPropertyModal"]', function () {
+            const propertyId = $(this).data('property-id');
+            loadModalContent('Edit', propertyId);
+        });
+
+        // Delete modal
+        $(document).on('click', '[data-bs-target="#deletePropertyModal"]', function () {
+            const propertyId = $(this).data('property-id');
+            loadModalContent('Delete', propertyId);
+        });
+
+        // Toggle availability
+        $(document).on('click', '.toggle-availability-btn', function () {
+            $('#toggleAvailabilityForm').submit();
+        });
+
+        // Function to load modal content
+        function loadModalContent(action, id) {
+            $.ajax({
+                url: `/Property/${action}/${id}`,  // Fixed URL construction
+                type: 'GET',
+                success: function (data) {
+                    $(`#${action.toLowerCase()}PropertyContent`).html(data);
+                },
+                error: function (err) {
+                    console.error('Error loading content:', err);
+                    $(`#${action.toLowerCase()}PropertyContent`).html('<div class="alert alert-danger">Error loading content</div>');
+                }
+            });
+        }
+
+        // Filter and search functionality
+        $(document).ready(function () {
+            // Search button click
+            $('#searchButton').click(function () {
+                filterProperties();
+            });
+
+            // Search on Enter key
+            $('#searchInput').keypress(function (e) {
+                if (e.which === 13) {
+                    filterProperties();
+                }
+            });
+
+            // Filter button click
+            $('#filterButton').click(function () {
+                filterProperties();
+            });
+
+            function filterProperties() {
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                const propertyType = $('#propertyType').val();
+                const minPrice = $('#minPrice').val() ? parseFloat($('#minPrice').val()) : 0;
+                const maxPrice = $('#maxPrice').val() ? parseFloat($('#maxPrice').val()) : Number.MAX_SAFE_INTEGER;
+                const bedrooms = $('#bedrooms').val() ? parseInt($('#bedrooms').val()) : 0;
+                const isFurnished = $('#furnished').is(':checked');
+                const hasParking = $('#parking').is(':checked');
+                let visibleCount = 0;
+
+                $('.property-card').each(function () {
+                    const card = $(this);
+                    const title = card.find('.card-title').text().toLowerCase();
+                    const description = card.find('.card-text').text().toLowerCase();
+                    const location = card.find('.card-subtitle').text().toLowerCase();
+                    const type = card.find('.bi-building').parent().text().trim();
+                    const price = parseFloat(card.find('.text-primary').text().replace(/[₱,]/g, ''));
+                    const bedroomCount = parseInt(card.find('.bi-door-closed').parent().text());
+                    const furnished = card.find('.badge.bg-info').length > 0;
+                    const parking = card.find('.badge.bg-secondary').length > 0;
+
+                    let visible = true;
+
+                    // Apply filters
+                    if (searchTerm && !(title.includes(searchTerm) || description.includes(searchTerm) || location.includes(searchTerm))) {
+                        visible = false;
+                    }
+                    if (propertyType && type.indexOf(propertyType) === -1) {
+                        visible = false;
+                    }
+                    if (price < minPrice || price > maxPrice) {
+                        visible = false;
+                    }
+                    if (bedrooms > 0 && bedroomCount < bedrooms) {
+                        visible = false;
+                    }
+                    if (isFurnished && !furnished) {
+                        visible = false;
+                    }
+                    if (hasParking && !parking) {
+                        visible = false;
+                    }
+
+                    // Show/hide card
+                    card.closest('.col-md-6').toggle(visible);
+                    if (visible) {
+                        visibleCount++;
+                    }
+                });
+
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    $('#noResultsMessage').removeClass('d-none');
+                } else {
+                    $('#noResultsMessage').addClass('d-none');
+                }
+            }
+        });
+    </script>
+}

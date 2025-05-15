@@ -1,0 +1,105 @@
+﻿<!--_EditPartial.cshtml-->
+@model PropertyRent.Models.Property
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="DatePosted" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" class="form-label">Title</label>
+            <input asp-for="Title" class="form-control" required maxlength="100">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="PropertyType" class="form-label">Property Type</label>
+            <select asp-for="PropertyType" class="form-select" required>
+                <option value="">Select Type</option>
+                <option value="Studio">Studio</option>
+                <option value="Apartment">Apartment</option>
+                <option value="Condominium">Condominium</option>
+                <option value="House">House</option>
+                <option value="Townhouse">Townhouse</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control" rows="3" required maxlength="500"></textarea>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mb-3">
+            <label asp-for="Address" class="form-label">Address</label>
+            <input asp-for="Address" class="form-control" required maxlength="200">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="Location" class="form-label">Location</label>
+            <input asp-for="Location" class="form-control" required maxlength="100">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="RentalPrice" class="form-label">Rental Price (₱)</label>
+            <input asp-for="RentalPrice" class="form-control" min="1000" max="1000000" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="Bedrooms" class="form-label">Bedrooms</label>
+            <input asp-for="Bedrooms" class="form-control" min="1" max="20" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="Bathrooms" class="form-label">Bathrooms</label>
+            <input asp-for="Bathrooms" class="form-control" min="1" max="20" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="form-check">
+                <input asp-for="HasParking" class="form-check-input">
+                <label asp-for="HasParking" class="form-check-label">
+                    Has Parking
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="form-check">
+                <input asp-for="IsFurnished" class="form-check-input">
+                <label asp-for="IsFurnished" class="form-check-label">
+                    Is Furnished
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="ContactNumber" class="form-label">Contact Number</label>
+            <input asp-for="ContactNumber" class="form-control" maxlength="20">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="ContactEmail" class="form-label">Contact Email</label>
+            <input asp-for="ContactEmail" class="form-control" maxlength="100">
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageUrl" class="form-label">Image URL</label>
+        <input asp-for="ImageUrl" class="form-control" maxlength="255">
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input asp-for="IsAvailable" class="form-check-input">
+            <label asp-for="IsAvailable" class="form-check-label">
+                Is Available
+            </label>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-warning">Update Property</button>
+    </div>
+</form>

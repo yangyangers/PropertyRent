@@ -1,0 +1,57 @@
+﻿<!--_DetailsPartial.cshtml-->
+@model PropertyRent.Models.Property
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="@Model.ImageUrl" class="img-fluid rounded mb-3" alt="@Model.Title">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge bg-primary">@Model.PropertyType</span>
+                @if (Model.IsFurnished)
+                {
+                    <span class="badge bg-info">Furnished</span>
+                }
+                @if (Model.HasParking)
+                {
+                    <span class="badge bg-secondary">Parking</span>
+                }
+                <span class="badge @(Model.IsAvailable ? "bg-success" : "bg-danger")">
+                    @(Model.IsAvailable ? "Available" : "Rented")
+                </span>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h3>@Model.Title</h3>
+            <h4 class="text-primary fw-bold">₱@Model.RentalPrice.ToString("N0") / month</h4>
+            <p class="text-muted"><i class="bi bi-geo-alt"></i> @Model.Address, @Model.Location</p>
+            <div class="row mb-3">
+                <div class="col-4">
+                    <div class="text-center">
+                        <i class="bi bi-building fs-3"></i>
+                        <p>@Model.PropertyType</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="text-center">
+                        <i class="bi bi-door-closed fs-3"></i>
+                        <p>@Model.Bedrooms Bedrooms</p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="text-center">
+                        <i class="bi bi-water fs-3"></i>
+                        <p>@Model.Bathrooms Bathrooms</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h5>Description</h5>
+            <p>@Model.Description</p>
+            <hr>
+            <h5>Contact Information</h5>
+            <p><i class="bi bi-telephone"></i> @Model.ContactNumber</p>
+            <p><i class="bi bi-envelope"></i> @Model.ContactEmail</p>
+            <p><i class="bi bi-calendar"></i> Posted on: @Model.DatePosted.ToString("MMM dd, yyyy")</p>
+        </div>
+    </div>
+</div>

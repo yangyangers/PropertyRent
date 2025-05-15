@@ -1,0 +1,103 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f8f9fa;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+/* Custom CSS */
+.property-card {
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    .property-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.modal-header {
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.modal-footer {
+    border-radius: 0 0 0.25rem 0.25rem;
+}
+
+/* Form styles */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Badge customization */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Filter card */
+.card-header {
+    font-weight: 600;
+}
+
+/* Property card features */
+.property-card .bi {
+    margin-right: 5px;
+}
+
+/* Rented property */
+.border-danger {
+    border-width: 2px !important;
+}
+
+/* Navbar customization */
+.navbar-brand {
+    font-weight: 700;
+}
+
+    .navbar-brand .bi {
+        margin-right: 5px;
+    }
+
+/* Responsiveness adjustments */
+@media (max-width: 767.98px) {
+    .property-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .filter-container {
+        margin-bottom: 1.5rem;
+    }
+}
