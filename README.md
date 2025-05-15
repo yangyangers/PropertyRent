@@ -1,5 +1,5 @@
 # Group 7: Property Rental Website
-###Members at the end
+### Members at the end
 
 A property rental web application built with ASP.NET Core MVC. This project allows property owners to list rental properties and helps seekers find suitable accommodation based on their preferences.
 
