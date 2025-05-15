@@ -1,4 +1,5 @@
-# PropertyRent
+# Group 7: Property Rental Website
+###Members at the end
 
 A property rental web application built with ASP.NET Core MVC. This project allows property owners to list rental properties and helps seekers find suitable accommodation based on their preferences.
 
@@ -22,7 +23,7 @@ A property rental web application built with ASP.NET Core MVC. This project allo
 1. **Clone or Download the Project**
    - Clone:
      ```bash
-     git clone https://github.com/your-repo/PropertyRent.git
+     git clone https://github.com/yangyangers/PropertyRent.git
      ```
    - Or download as ZIP from your repository link, then extract it.
 
